@@ -1,110 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudySpark</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      overflow: hidden;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #111;
-      color: white;
-    }
-
-    .card-container {
-      display: flex;
-      transition: transform 0.5s ease;
-      width: 300%;
-      height: 100%;
-    }
-
-    .card {
-      flex: 1 0 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #fff;
-      transition: background 0.5s ease;
-    }
-
-    .card:nth-child(1) {
-      background: linear-gradient(135deg, #ff512f, #dd2476);
-    }
-    .card:nth-child(2) {
-      background: linear-gradient(135deg, #f7971e, #ffd200);
-    }
-    .card:nth-child(3) {
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-    }
-
-    .title {
-      position: absolute;
-      top: 30px;
-      font-size: 1.5rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    @media (max-width: 768px) {
-      .card {
-        font-size: 1.4rem;
-        padding: 20px;
-      }
-      .title {
-        font-size: 1.2rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StudySpark</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
+  body { overflow:hidden; height:100vh; display:flex; justify-content:center; align-items:center; background:#111; color:#fff; }
+  .card-container { display:flex; width:300%; height:100%; transition: transform 0.5s ease; }
+  .card { flex:0 0 100%; display:flex; justify-content:center; align-items:center; padding:30px; text-align:center; font-size:1.8rem; font-weight:700; color:#fff; }
+  .card:nth-child(1) { background: linear-gradient(135deg, #ff512f, #dd2476); }
+  .card:nth-child(2) { background: linear-gradient(135deg, #f7971e, #ffd200); }
+  .card:nth-child(3) { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+  .title { position:absolute; top:30px; font-size:1.5rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; }
+  @media (max-width:768px) { .card { font-size:1.4rem; padding:20px; } .title { font-size:1.2rem; } }
+</style>
 </head>
 <body>
-  <div class="title">StudySpark</div>
-  <div class="card-container" id="cardContainer">
-    <div class="card" id="card1"></div>
-    <div class="card" id="card2"></div>
-    <div class="card" id="card3"></div>
-  </div>
+<div class="title">StudySpark</div>
+<div class="card-container" id="cardContainer">
+  <div class="card" id="card1"></div>
+  <div class="card" id="card2"></div>
+  <div class="card" id="card3"></div>
+</div>
 
-  <script src="quotes.js"></script>
-  <script>
-    const cardContainer = document.getElementById("cardContainer");
-    const quotesToday = getQuotesForToday();
-    document.getElementById("card1").innerText = quotesToday[0];
-    document.getElementById("card2").innerText = quotesToday[1];
-    document.getElementById("card3").innerText = quotesToday[2];
+<script src="quotes.js"></script>
+<script>
+  // Get 3 quotes for today (just pick first 3 for demo)
+  const quotesToday = quotes.slice(0,3); // assumes your quotes.js has: const quotes = [ ... ];
 
-    let currentIndex = 0;
-    let startX = 0;
+  // Fill cards
+  document.getElementById("card1").innerText = quotesToday[0];
+  document.getElementById("card2").innerText = quotesToday[1];
+  document.getElementById("card3").innerText = quotesToday[2];
 
-    document.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].clientX;
-    });
+  // Swipe logic
+  const cardContainer = document.getElementById("cardContainer");
+  let currentIndex = 0;
+  let startX = 0;
 
-    document.addEventListener("touchmove", (e) => {
-      if (!startX) return;
-      const diffX = e.touches[0].clientX - startX;
-      if (Math.abs(diffX) > 50) {
-        if (diffX < 0 && currentIndex < 2) currentIndex++;
-        if (diffX > 0 && currentIndex > 0) currentIndex--;
-        cardContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-        startX = 0;
-      }
-    });
-  </script>
+  document.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
+  document.addEventListener("touchmove", e => {
+    if(!startX) return;
+    const diffX = e.touches[0].clientX - startX;
+    if(Math.abs(diffX) > 50){
+      if(diffX < 0 && currentIndex < 2) currentIndex++;
+      if(diffX > 0 && currentIndex > 0) currentIndex--;
+      cardContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+      startX = 0;
+    }
+  });
+</script>
 </body>
 </html>
