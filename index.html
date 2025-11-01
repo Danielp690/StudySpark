@@ -19,22 +19,12 @@
 <body>
 <div class="title">StudySpark</div>
 <div class="card-container" id="cardContainer">
-  <div class="card" id="card1"></div>
-  <div class="card" id="card2"></div>
-  <div class="card" id="card3"></div>
+  <div class="card" id="card1">Study while others sleep, dream while others procrastinate.</div>
+  <div class="card" id="card2">Success is no accident; it’s hard work, perseverance, learning, studying, sacrifice and love of what you are doing.</div>
+  <div class="card" id="card3">Don’t wish it were easier; wish you were better.</div>
 </div>
 
-<script src="quotes.js"></script>
 <script>
-  // Get 3 quotes for today (just pick first 3 for demo)
-  const quotesToday = quotes.slice(0,3); // assumes your quotes.js has: const quotes = [ ... ];
-
-  // Fill cards
-  document.getElementById("card1").innerText = quotesToday[0];
-  document.getElementById("card2").innerText = quotesToday[1];
-  document.getElementById("card3").innerText = quotesToday[2];
-
-  // Swipe logic
   const cardContainer = document.getElementById("cardContainer");
   let currentIndex = 0;
   let startX = 0;
