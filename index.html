@@ -1,66 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>StudySpark</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
-  html, body { width:100%; height:100%; overflow:hidden; background:#111; color:#fff; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>StudySpark</title>
+  <style>
+    /* Reset + base */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;width:100%;overflow:hidden;background:#0b0b0b;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#fff}
 
-  .card {
-    position:absolute;
-    inset:0; /* full width + height */
-    display:flex; justify-content:center; align-items:center;
-    text-align:center; font-size:1.8rem; font-weight:700; padding:20px;
-    transition: transform 0.6s ease;
-  }
-  .card:nth-child(1) { background: linear-gradient(135deg,#ff512f,#dd2476); }
-  .card:nth-child(2) { background: linear-gradient(135deg,#f7971e,#ffd200); transform:translateX(100%); }
-  .card:nth-child(3) { background: linear-gradient(135deg,#00c6ff,#0072ff); transform:translateX(100%); }
+    /* Title */
+    .title {
+      position: absolute;
+      top:18px;
+      left:0;
+      right:0;
+      text-align:center;
+      font-weight:800;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:18px;
+      z-index:50;
+      pointer-events:none;
+    }
 
-  .title {
-    position:absolute; top:30px; width:100%; text-align:center;
-    font-size:1.5rem; font-weight:800; text-transform:uppercase; letter-spacing:2px;
-    color:white; text-shadow:0 0 10px rgba(0,0,0,0.3);
-  }
+    /* Card styling: absolutely full-screen so only one is visible */
+    .card {
+      position:absolute;
+      inset:0;                  /* top:0; right:0; bottom:0; left:0; */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:28px;
+      transition: transform 0.55s cubic-bezier(.2,.9,.3,1), opacity 0.35s ease;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+      font-weight:800;
+      line-height:1.1;
+      font-size:clamp(20px,4vw,34px);
+    }
 
-  @media(max-width:768px){
-    .card{font-size:1.4rem;padding:20px;}
-    .title{font-size:1.2rem;}
-  }
-</style>
+    /* Start positions: card1 visible, others off-screen to right */
+    .card[data-slot="0"] { transform: translateX(0); }
+    .card[data-slot="1"] { transform: translateX(100%); }
+    .card[data-slot="2"] { transform: translateX(100%); }
+
+    /* Backgrounds (vibrant) */
+    .card[data-index="0"] { background: linear-gradient(135deg,#ff512f 0%,#dd2476 100%); }
+    .card[data-index="1"] { background: linear-gradient(135deg,#f7971e 0%,#ffd200 100%); color:#111; }
+    .card[data-index="2"] { background: linear-gradient(135deg,#00c6ff 0%,#0072ff 100%); }
+
+    /* Ensure text contrast on bright card 2 */
+    .card[data-index="1"] .text { color: #111; text-shadow: none; }
+
+    /* Small footer hint */
+    .hint {
+      position:absolute;
+      bottom:18px;
+      left:0;
+      right:0;
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,0.85);
+      opacity:0.9;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width:520px){
+      .title{font-size:14px}
+      .hint{font-size:11px}
+      .card{padding:18px;font-size:clamp(18px,5vw,28px)}
+    }
+  </style>
 </head>
 <body>
-<div class="title">StudySpark</div>
+  <div class="title">StudySpark</div>
 
-<div class="card" id="card1">Study while others sleep, dream while others procrastinate.</div>
-<div class="card" id="card2">Success is no accident; it’s hard work, perseverance, learning, studying, sacrifice and love of what you are doing.</div>
-<div class="card" id="card3">Don’t wish it were easier; wish you were better.</div>
+  <!-- Cards: data-index controls background color (0..2). 
+       data-slot controls position: 0 current, -1 left-off, 1 right-off (we use -100%/0/100% via JS) -->
+  <div class="card" id="cardA" data-index="0" data-slot="0"><div class="text">Loading…</div></div>
+  <div class="card" id="cardB" data-index="1" data-slot="1"><div class="text">Loading…</div></div>
+  <div class="card" id="cardC" data-index="2" data-slot="2"><div class="text">Loading…</div></div>
 
-<script>
-let current = 0;
-const cards = [...document.querySelectorAll(".card")];
-let startX = 0;
+  <div class="hint">Swipe left / right — hold and drag</div>
 
-function showCard(index) {
-  cards.forEach((c, i) => {
-    if (i < index) c.style.transform = "translateX(-100%)";   // hide left
-    else if (i === index) c.style.transform = "translateX(0)"; // show current
-    else c.style.transform = "translateX(100%)";               // hide right
-  });
-}
+  <script>
+  (function(){
+    // Utility: force layout values for slots: -1 (left), 0 (center), 1 (right)
+    function applyPositions(cards, centerIndex) {
+      cards.forEach((el, i) => {
+        const slot = i - centerIndex; // -1,0,1
+        if (slot < 0) el.style.transform = 'translateX(-100%)';
+        else if (slot > 0) el.style.transform = 'translateX(100%)';
+        else el.style.transform = 'translateX(0)';
+      });
+    }
 
-document.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
-document.addEventListener("touchend", e => {
-  const diffX = e.changedTouches[0].clientX - startX;
-  if (diffX < -50 && current < cards.length - 1) current++;
-  else if (diffX > 50 && current > 0) current--;
-  showCard(current);
-});
+    // Get quotes: Prefer window.quotes from quotes.js if present and valid
+    const fallback = [
+      "Study while others sleep, dream while others procrastinate.",
+      "Success is no accident; it’s hard work, perseverance, learning and studying.",
+      "Don’t wish it were easier; wish you were better."
+    ];
 
-// Initialize the first card
-showCard(current);
-</script>
+    let dailyThree = null;
+
+    // If quotes array exists and is an array, pick deterministic 3 for today
+    try {
+      if (Array.isArray(window.quotes) && window.quotes.length >= 3) {
+        // Deterministic selection based on date: pick 3 different indices
+        const today = new Date();
+        const dayKey = `${today.getUTCFullYear()}-${today.getUTCMonth()+1}-${today.getUTCDate()}`;
+        // simple hash
+        let h = 0; for (let i=0;i<dayKey.length;i++) h = (h<<5)-h + dayKey.charCodeAt(i);
+        h = Math.abs(h);
+        const chosen = [];
+        let idxBase = h % window.quotes.length;
+        for (let i=0;i<3;i++){
+          chosen.push(String(window.quotes[(idxBase + i*37) % window.quotes.length])); // force string
+        }
+        dailyThree = chosen;
+      }
+    } catch(e) {
+      dailyThree = null;
+    }
+
+    if (!dailyThree) dailyThree = fallback.slice(0,3);
+
+    // Ensure exactly three strings
+    dailyThree = dailyThree.map(q => (typeof q === 'string' ? q : String(q))).slice(0,3);
+
+    // Map cards
+    const cards = [
+      document.getElementById('cardA'),
+      document.getElementById('cardB'),
+      document.getElementById('cardC')
+    ];
+
+    // Insert text and set data-index (keeps background mapping)
+    cards.forEach((el, i) => {
+      const txtEl = el.querySelector('.text');
+      txtEl.innerText = dailyThree[i] || '';
+      el.setAttribute('data-index', String(i));
+    });
+
+    // Setup positions: center at index 0 initially
+    let current = 0;
+    applyPositions(cards, current);
+
+    // Touch + mouse drag support
+    let pointerDown = false, startX = 0;
+    const threshold = 50; // px
+
+    function onStart(x){
+      pointerDown = true;
+      startX = x;
+    }
+    function onMove(x){
+      if (!pointerDown) return;
+      // we won't do live dragging (keeps simple), only detect end direction
+    }
+    function onEnd(x){
+      if (!pointerDown) return;
+      const diff = x - startX;
+      pointerDown = false;
+      if (diff < -threshold && current < cards.length - 1) current++;
+      else if (diff > threshold && current > 0) current--;
+      applyPositions(cards, current);
+    }
+
+    // Touch events
+    window.addEventListener('touchstart', (e)=> onStart(e.touches[0].clientX), {passive:true});
+    window.addEventListener('touchmove', (e)=> onMove(e.touches[0].clientX), {passive:true});
+    window.addEventListener('touchend', (e)=> onEnd(e.changedTouches[0].clientX), {passive:true});
+
+    // Mouse events (desktop testing)
+    window.addEventListener('mousedown', (e)=> onStart(e.clientX));
+    window.addEventListener('mousemove', (e)=> onMove(e.clientX));
+    window.addEventListener('mouseup', (e)=> onEnd(e.clientX));
+
+    // Keyboard left/right for convenience
+    window.addEventListener('keydown', (e)=>{
+      if (e.key === 'ArrowLeft' && current > 0) { current--; applyPositions(cards, current); }
+      if (e.key === 'ArrowRight' && current < cards.length-1) { current++; applyPositions(cards, current); }
+    });
+
+    // Ensure layout stays correct even if fonts cause reflow
+    window.addEventListener('resize', ()=> applyPositions(cards, current));
+
+    // Small accessibility: announce card on change (screen-reader friendly)
+    const observer = new MutationObserver(()=> {
+      // no-op here; kept in case you want live ARIA updates
+    });
+    cards.forEach(c => observer.observe(c, {attributes:true, attributeFilter:['style']}));
+
+    // End IIFE
+  })();
+  </script>
 </body>
 </html>
