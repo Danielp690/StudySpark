@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>StudySpark — Daily Study Quotes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#F6F2EE">
+<style>
+:root{--bg:#F6F2EE; --card:#ffffff; --muted:#9B8E82; --accent:#D8CBB8; --shadow:0 8px 24px rgba(15,15,15,0.06); --radius:14px;}
+html,body{height:100%;}
+body{margin:0; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: linear-gradient(180deg,var(--bg) 0%, #F3EEE7 100%); color:#333; display:flex; align-items:flex-start; justify-content:center; padding:32px;}
+.container{width:100%; max-width:960px;}
+header{display:flex; gap:16px; align-items:center; justify-content:space-between; margin-bottom:20px;}
+.brand{display:flex; gap:12px; align-items:center}
+.logo{width:56px; height:56px; border-radius:12px; background:linear-gradient(135deg,#fff,#F8F4EE); box-shadow:var(--shadow); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:Merriweather; color:#7C6E63;}
+h1{margin:0;font-family:Merriweather, serif; font-size:20px; color:#5B4E45}
+.subtitle{font-size:13px; color:var(--muted)}
+.controls{display:flex; gap:10px; align-items:center}
+.btn{background:transparent;border:1px solid rgba(0,0,0,0.06); padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--accent); border: none}
+main{display:grid; grid-template-columns:1fr; gap:18px}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px}
+.card{background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); min-height:160px; display:flex; flex-direction:column; justify-content:space-between;}
+.quote{font-family:Merriweather, serif; font-size:18px; line-height:1.4; color:#2F2A28}
+.author{font-size:13px; color:var(--muted); margin-top:12px}
+.cardFooter{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:14px}
+.tiny{font-size:12px;color:var(--muted)}
+.ad{display:flex; align-items:center; justify-content:center; border-radius:10px; padding:12px; background:linear-gradient(180deg,#FBF8F5,#FEFEFE); border:1px dashed #E8E0D8; color:#8C7F74}
+footer{margin-top:22px; display:flex; gap:12px; align-items:center; justify-content:space-between}
+@media(max-width:560px){body{padding:18px} .logo{width:48px;height:48px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="brand">
+<div class="logo">SS</div>
+<div>
+<h1>StudySpark</h1>
+<div class="subtitle">3 fresh study quotes every day — Academic Calm</div>
+</div>
+</div>
+<div class="controls">
+<button id="installBtn" class="btn">Install</button>
+<button id="refreshBtn" class="btn">New set (same day)</button>
+</div>
+</header>
+<main>
+<section class="cards" id="cards"></section>
+<div class="ad" style="margin-top:6px">
+<div id="ad-slot">Ad placeholder — paste AdSense code here after approval</div>
+</div>
+<footer>
+<div class="tiny">Made for students • Open-source demo</div>
+<div style="display:flex; gap:8px; align-items:center">
+<button id="copyAll" class="btn">Copy all quotes</button>
+<button id="saveFavs" class="btn primary">Save favourites</button>
+</div>
+</footer>
+</main>
+</div>
+<script src="quotes.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
