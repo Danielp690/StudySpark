@@ -6,40 +6,45 @@
 <title>StudySpark</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
-  body { overflow:hidden; height:100vh; display:flex; justify-content:center; align-items:center; background:#111; color:#fff; }
-  .card-container { display:flex; width:300%; height:100%; transition: transform 0.5s ease; }
-  .card { flex:0 0 100%; display:flex; justify-content:center; align-items:center; padding:30px; text-align:center; font-size:1.8rem; font-weight:700; color:#fff; }
-  .card:nth-child(1) { background: linear-gradient(135deg, #ff512f, #dd2476); }
-  .card:nth-child(2) { background: linear-gradient(135deg, #f7971e, #ffd200); }
-  .card:nth-child(3) { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-  .title { position:absolute; top:30px; font-size:1.5rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; }
-  @media (max-width:768px) { .card { font-size:1.4rem; padding:20px; } .title { font-size:1.2rem; } }
+  body { overflow:hidden; height:100vh; background:#111; color:#fff; }
+  .card {
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;
+    display:flex; justify-content:center; align-items:center;
+    text-align:center; font-size:1.8rem; font-weight:700; padding:20px;
+    transition: transform 0.5s ease;
+  }
+  .card:nth-child(1) { background: linear-gradient(135deg,#ff512f,#dd2476); }
+  .card:nth-child(2) { background: linear-gradient(135deg,#f7971e,#ffd200); transform: translateX(100%); }
+  .card:nth-child(3) { background: linear-gradient(135deg,#00c6ff,#0072ff); transform: translateX(100%); }
+  .title { position:absolute; top:30px; width:100%; text-align:center; font-size:1.5rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; }
+  @media(max-width:768px){.card{font-size:1.4rem;padding:20px;}.title{font-size:1.2rem;}}
 </style>
 </head>
 <body>
 <div class="title">StudySpark</div>
-<div class="card-container" id="cardContainer">
-  <div class="card" id="card1">Study while others sleep, dream while others procrastinate.</div>
-  <div class="card" id="card2">Success is no accident; it’s hard work, perseverance, learning, studying, sacrifice and love of what you are doing.</div>
-  <div class="card" id="card3">Don’t wish it were easier; wish you were better.</div>
-</div>
+
+<div class="card" id="card1">Study while others sleep, dream while others procrastinate.</div>
+<div class="card" id="card2">Success is no accident; it’s hard work, perseverance, learning, studying, sacrifice and love of what you are doing.</div>
+<div class="card" id="card3">Don’t wish it were easier; wish you were better.</div>
 
 <script>
-  const cardContainer = document.getElementById("cardContainer");
-  let currentIndex = 0;
-  let startX = 0;
+let current = 0;
+const cards = [document.getElementById("card1"), document.getElementById("card2"), document.getElementById("card3")];
+let startX = 0;
 
-  document.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
-  document.addEventListener("touchmove", e => {
-    if(!startX) return;
-    const diffX = e.touches[0].clientX - startX;
-    if(Math.abs(diffX) > 50){
-      if(diffX < 0 && currentIndex < 2) currentIndex++;
-      if(diffX > 0 && currentIndex > 0) currentIndex--;
-      cardContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-      startX = 0;
-    }
+function showCard(index){
+  cards.forEach((c,i)=>{
+    c.style.transform = i === index ? 'translateX(0)' : 'translateX(100%)';
   });
+}
+
+document.addEventListener('touchstart', e=>{ startX = e.touches[0].clientX; });
+document.addEventListener('touchend', e=>{
+  const diffX = e.changedTouches[0].clientX - startX;
+  if(diffX < -50 && current < cards.length-1){ current++; showCard(current); }
+  if(diffX > 50 && current > 0){ current--; showCard(current); }
+});
 </script>
 </body>
 </html>
