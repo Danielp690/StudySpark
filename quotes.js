@@ -1,3 +1,4 @@
+Js
 const QUOTES = [
 ["Small progress every day builds up to big results.", "— StudySpark"],
 ["Start with five focused minutes; momentum will follow.", "— StudySpark"],
