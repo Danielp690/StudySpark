@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>StudySpark</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -13,14 +13,15 @@
       background:#000;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
       color:#fff;
-      touch-action:manipulation;
+      touch-action:none;              /* 🔒 disables pinch & pan */
+      overscroll-behavior:none;       /* no bounce scroll */
+      -webkit-user-select:none;
+      user-select:none;
     }
 
     .title {
-      position: absolute;
-      top:20px;
-      left:0;
-      right:0;
+      position:absolute;
+      top:20px;left:0;right:0;
       text-align:center;
       font-weight:800;
       letter-spacing:2px;
@@ -54,9 +55,7 @@
 
     .hint {
       position:absolute;
-      bottom:16px;
-      left:0;
-      right:0;
+      bottom:16px;left:0;right:0;
       text-align:center;
       font-size:12px;
       color:rgba(255,255,255,0.85);
@@ -92,18 +91,17 @@
     try {
       if (Array.isArray(window.quotes) && window.quotes.length >= 3) {
         const today = new Date();
-        const dayKey = `${today.getUTCFullYear()}-${today.getUTCMonth()+1}-${today.getUTCDate()}`;
-        let h = 0; for (let i=0;i<dayKey.length;i++) h = (h<<5)-h + dayKey.charCodeAt(i);
+        const key = `${today.getUTCFullYear()}-${today.getUTCMonth()+1}-${today.getUTCDate()}`;
+        let h = 0; for (let i=0;i<key.length;i++) h = (h<<5)-h + key.charCodeAt(i);
         h = Math.abs(h);
         const chosen = [];
-        let idxBase = h % window.quotes.length;
+        let base = h % window.quotes.length;
         for (let i=0;i<3;i++){
-          chosen.push(String(window.quotes[(idxBase + i*37) % window.quotes.length]));
+          chosen.push(String(window.quotes[(base + i*37) % window.quotes.length]));
         }
         dailyThree = chosen;
       }
     } catch(e){}
-
     if (!dailyThree) dailyThree = fallback.slice(0,3);
 
     const cards = [
@@ -111,41 +109,35 @@
       document.getElementById('cardB'),
       document.getElementById('cardC')
     ];
+
     cards.forEach((c,i)=>{
       c.querySelector('.text').innerText = dailyThree[i];
       c.style.transform = `translateX(${i===0?0:100}%)`;
     });
 
     let current = 0;
-    function showCard(index){
-      cards.forEach((c,i)=>{
-        if(i===index){
-          c.style.transform='translateX(0)';
-          c.style.opacity='1';
-        } else if(i<index){
-          c.style.transform='translateX(-100%)';
-          c.style.opacity='0';
-        } else {
-          c.style.transform='translateX(100%)';
-          c.style.opacity='0';
-        }
+    function showCard(i){
+      cards.forEach((c,idx)=>{
+        if(idx===i){ c.style.transform='translateX(0)'; c.style.opacity='1'; }
+        else if(idx<i){ c.style.transform='translateX(-100%)'; c.style.opacity='0'; }
+        else{ c.style.transform='translateX(100%)'; c.style.opacity='0'; }
       });
     }
 
     function nextCard(){
-      current = (current + 1) % cards.length;
+      current = (current+1)%cards.length;
       showCard(current);
     }
 
-    // tap to change
     document.body.addEventListener('click', nextCard);
-    // keyboard
-    window.addEventListener('keydown', (e)=>{ if(e.key===' '||e.key==='ArrowRight') nextCard(); });
+    window.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='ArrowRight') nextCard(); });
 
-    // lock zoom
-    document.addEventListener('gesturestart', e => e.preventDefault());
-    document.addEventListener('gesturechange', e => e.preventDefault());
-    document.addEventListener('gestureend', e => e.preventDefault());
+    /* 🔒 Completely block gestures/zoom/pinch */
+    ['gesturestart','gesturechange','gestureend','wheel','touchmove'].forEach(evt=>{
+      document.addEventListener(evt, e => {
+        if (e.scale !== undefined || e.touches?.length > 1 || e.ctrlKey) e.preventDefault();
+      }, {passive:false});
+    });
   })();
   </script>
 </body>
