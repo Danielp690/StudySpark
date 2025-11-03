@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>StudySpark</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -14,68 +14,160 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
       color:#fff;
       touch-action:none;
-      overscroll-behavior:none;
-      -webkit-user-select:none;
       user-select:none;
     }
 
     .title {
       position:absolute;
-      top:20px;left:0;right:0;
+      top:18px;left:0;right:0;
       text-align:center;
       font-weight:800;
       letter-spacing:2px;
       text-transform:uppercase;
-      font-size:18px;
+      font-size:16px;
       z-index:10;
-      pointer-events:none;
     }
 
     .card {
       position:absolute;
       inset:0;
       display:flex;
+      flex-direction:column;
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:30px;
+      padding:28px 22px;
       transition: transform 0.6s cubic-bezier(.25,.8,.25,1), opacity 0.4s ease;
       font-weight:800;
       line-height:1.1;
-      font-size:clamp(20px,4vw,34px);
+      font-size:clamp(20px,4vw,32px);
       cursor:pointer;
-      user-select:none;
       will-change:transform,opacity;
     }
 
-    /* vibrant backgrounds */
     .card[data-index="0"] { background: linear-gradient(135deg,#ff512f 0%,#dd2476 100%); }
     .card[data-index="1"] { background: linear-gradient(135deg,#f7971e 0%,#ffd200 100%); color:#111; }
     .card[data-index="2"] { background: linear-gradient(135deg,#00c6ff 0%,#0072ff 100%); }
+
+    .quote {
+      max-width:900px;
+      margin-bottom:22px;
+      padding:0 8px;
+      font-weight:800;
+    }
+    .author {
+      margin-top:10px;
+      font-weight:600;
+      font-size:14px;
+      opacity:0.95;
+    }
+
+    .product {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:rgba(255,255,255,0.12);
+      padding:12px 16px;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.25);
+      max-width:760px;
+      width:92%;
+      margin-top:18px;
+      backdrop-filter:blur(6px);
+    }
+    .product img {
+      width:58px;
+      height:58px;
+      border-radius:8px;
+      object-fit:cover;
+    }
+    .product .meta { flex:1 1 auto; text-align:left; }
+    .product .meta .name { font-weight:800; font-size:14px; line-height:1.05; }
+    .product .meta .sub { font-size:12px; opacity:0.9; margin-top:4px; }
+    .product .cta { margin-left:12px; flex:0 0 auto; }
+    .product .btn {
+      background:#111;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:8px;
+      font-weight:800;
+      text-decoration:none;
+      display:inline-block;
+      box-shadow:0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    .card[data-index="1"] .product { background:rgba(0,0,0,0.06); }
+    .card[data-index="1"] .product .btn { background:#111; color:#fff; }
 
     .hint {
       position:absolute;
       bottom:16px;left:0;right:0;
       text-align:center;
       font-size:12px;
-      color:rgba(255,255,255,0.85);
-      opacity:0.9;
+      color:rgba(255,255,255,0.9);
       z-index:10;
     }
 
     @media (max-width:520px){
       .title{font-size:14px}
-      .hint{font-size:11px}
-      .card{padding:20px;font-size:clamp(18px,5vw,28px)}
+      .hint{font-size:11px; bottom:18px}
+      .product { gap:10px; padding:8px 10px; border-radius:10px }
+      .product img { width:46px; height:46px }
+      .product .btn { padding:8px 10px; font-size:13px }
+      .card { padding:18px 12px }
     }
   </style>
 </head>
 <body>
   <div class="title">StudySpark</div>
 
-  <div class="card" id="cardA" data-index="0"><div class="text">Loading…</div></div>
-  <div class="card" id="cardB" data-index="1"><div class="text">Loading…</div></div>
-  <div class="card" id="cardC" data-index="2"><div class="text">Loading…</div></div>
+  <!-- Card 1 -->
+  <div class="card" id="cardA" data-index="0">
+    <div class="quote">
+      <span class="text">Loading…</span>
+      <div class="author">— StudySpark</div>
+    </div>
+    <div class="product">
+      <img src="https://m.media-amazon.com/images/I/71cLzD9RrHL._AC_SX679_.jpg" alt="Study Planner">
+      <div class="meta">
+        <div class="name">Kokonote Academic Study Planner</div>
+        <div class="sub">Plan your week & track progress</div>
+      </div>
+      <div class="cta"><a class="btn" href="https://www.amazon.co.uk/dp/B0F7M1TVC3/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a></div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="card" id="cardB" data-index="1">
+    <div class="quote">
+      <span class="text">Loading…</span>
+      <div class="author">— StudySpark</div>
+    </div>
+    <div class="product">
+      <img src="https://m.media-amazon.com/images/I/61kv1ZfxDWL._AC_SX679_.jpg" alt="Pomodoro Timer">
+      <div class="meta">
+        <div class="name">Digital Pomodoro Timer Cube</div>
+        <div class="sub">Stay focused in timed sessions</div>
+      </div>
+      <div class="cta"><a class="btn" href="https://www.amazon.co.uk/dp/B0CZNTVHY4/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a></div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="card" id="cardC" data-index="2">
+    <div class="quote">
+      <span class="text">Loading…</span>
+      <div class="author">— StudySpark</div>
+    </div>
+    <div class="product">
+      <img src="https://m.media-amazon.com/images/I/81F90H7hn2L._AC_UF1000,1000_QL80_.jpg" alt="Atomic Habits Book">
+      <div class="meta">
+        <div class="name">"Atomic Habits" by James Clear</div>
+        <div class="sub">Transform small actions into success</div>
+      </div>
+      <div class="cta"><a class="btn" href="https://www.amazon.co.uk/dp/1847941834/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a></div>
+    </div>
+  </div>
 
   <div class="hint">Tap anywhere to see the next quote</div>
 
@@ -83,77 +175,46 @@
   (function(){
     const fallback = [
       "Study while others sleep, dream while others procrastinate.",
-      "Success is no accident; it’s hard work, perseverance, learning and studying.",
-      "Don’t wish it were easier; wish you were better."
+      "Focus on practice, not perfection.",
+      "Small consistent steps beat last-minute panic."
     ];
 
-    let dailyThree = null;
+    let dailyThree = fallback;
     try {
       if (Array.isArray(window.quotes) && window.quotes.length >= 3) {
         const today = new Date();
         const key = `${today.getUTCFullYear()}-${today.getUTCMonth()+1}-${today.getUTCDate()}`;
-        let h = 0; for (let i=0;i<key.length;i++) h = (h<<5)-h + key.charCodeAt(i);
-        h = Math.abs(h);
-        const chosen = [];
-        let base = h % window.quotes.length;
-        for (let i=0;i<3;i++){
-          chosen.push(String(window.quotes[(base + i*37) % window.quotes.length]));
-        }
-        dailyThree = chosen;
+        let h=0; for (let i=0;i<key.length;i++) h=(h<<5)-h+key.charCodeAt(i);
+        h=Math.abs(h);
+        dailyThree=[0,1,2].map(i=>window.quotes[(h+i*37)%window.quotes.length]);
       }
     } catch(e){}
-    if (!dailyThree) dailyThree = fallback.slice(0,3);
 
-    const cards = [
+    const cards=[
       document.getElementById('cardA'),
       document.getElementById('cardB'),
       document.getElementById('cardC')
     ];
-
     cards.forEach((c,i)=>{
-      c.querySelector('.text').innerText = dailyThree[i];
-      c.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+      c.querySelector('.text').innerText=dailyThree[i];
+      c.style.transform=i===0?'translateX(0)':'translateX(100%)';
     });
 
-    let current = 0;
-    const total = cards.length;
-
-    function showCard(i){
-      cards.forEach((c,idx)=>{
-        if(idx === i){ 
-          c.style.transform = 'translateX(0)'; 
-          c.style.opacity = '1'; 
-        }
-        else{
-          c.style.transform = 'translateX(-100%)';
-          c.style.opacity = '0';
-        }
-      });
-    }
-
-    function nextCard(){
-      const prev = current;
-      current = (current + 1) % total;
-
-      // Move the new card into view from the right
-      cards[current].style.transition = 'none';
-      cards[current].style.transform = 'translateX(100%)';
+    let current=0;
+    function next(){
+      const prev=current;
+      current=(current+1)%cards.length;
+      cards[current].style.transition='none';
+      cards[current].style.transform='translateX(100%)';
       requestAnimationFrame(()=>{
-        cards[current].style.transition = 'transform 0.6s cubic-bezier(.25,.8,.25,1), opacity 0.4s ease';
-        cards[prev].style.transform = 'translateX(-100%)';
-        cards[current].style.transform = 'translateX(0)';
-        cards[current].style.opacity = '1';
+        cards[prev].style.transition='transform 0.6s cubic-bezier(.25,.8,.25,1)';
+        cards[current].style.transition='transform 0.6s cubic-bezier(.25,.8,.25,1)';
+        cards[prev].style.transform='translateX(-100%)';
+        cards[current].style.transform='translateX(0)';
       });
     }
-
-    document.body.addEventListener('click', nextCard);
-    window.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='ArrowRight') nextCard(); });
-
-    ['gesturestart','gesturechange','gestureend','wheel','touchmove'].forEach(evt=>{
-      document.addEventListener(evt, e => {
-        if (e.scale !== undefined || e.touches?.length > 1 || e.ctrlKey) e.preventDefault();
-      }, {passive:false});
-    });
+    document.body.addEventListener('click',next);
+    window.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight')next();});
   })();
   </script>
 </body>
