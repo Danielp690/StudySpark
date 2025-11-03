@@ -16,10 +16,9 @@
       touch-action:none;
       user-select:none;
     }
-
     .title {
       position:absolute;
-      top:18px;left:0;right:0;
+      top:18px; left:0; right:0;
       text-align:center;
       font-weight:800;
       letter-spacing:2px;
@@ -27,7 +26,6 @@
       font-size:16px;
       z-index:10;
     }
-
     .card {
       position:absolute;
       inset:0;
@@ -44,11 +42,9 @@
       cursor:pointer;
       will-change:transform,opacity;
     }
-
     .card[data-index="0"] { background: linear-gradient(135deg,#ff512f 0%,#dd2476 100%); }
     .card[data-index="1"] { background: linear-gradient(135deg,#f7971e 0%,#ffd200 100%); color:#111; }
     .card[data-index="2"] { background: linear-gradient(135deg,#00c6ff 0%,#0072ff 100%); }
-
     .quote {
       max-width:900px;
       margin-bottom:22px;
@@ -61,7 +57,6 @@
       font-size:14px;
       opacity:0.95;
     }
-
     .product {
       display:flex;
       align-items:center;
@@ -81,10 +76,24 @@
       border-radius:8px;
       object-fit:cover;
     }
-    .product .meta { flex:1 1 auto; text-align:left; }
-    .product .meta .name { font-weight:800; font-size:14px; line-height:1.05; }
-    .product .meta .sub { font-size:12px; opacity:0.9; margin-top:4px; }
-    .product .cta { margin-left:12px; flex:0 0 auto; }
+    .product .meta {
+      flex:1 1 auto;
+      text-align:left;
+    }
+    .product .meta .name {
+      font-weight:800;
+      font-size:14px;
+      line-height:1.05;
+    }
+    .product .meta .sub {
+      font-size:12px;
+      opacity:0.9;
+      margin-top:4px;
+    }
+    .product .cta {
+      margin-left:12px;
+      flex:0 0 auto;
+    }
     .product .btn {
       background:#111;
       color:#fff;
@@ -95,19 +104,16 @@
       display:inline-block;
       box-shadow:0 6px 12px rgba(0,0,0,0.25);
     }
-
     .card[data-index="1"] .product { background:rgba(0,0,0,0.06); }
     .card[data-index="1"] .product .btn { background:#111; color:#fff; }
-
     .hint {
       position:absolute;
-      bottom:16px;left:0;right:0;
+      bottom:16px; left:0; right:0;
       text-align:center;
       font-size:12px;
       color:rgba(255,255,255,0.9);
       z-index:10;
     }
-
     @media (max-width:520px){
       .title{font-size:14px}
       .hint{font-size:11px; bottom:18px}
@@ -128,12 +134,14 @@
       <div class="author">— StudySpark</div>
     </div>
     <div class="product">
-      <img src="https://m.media-amazon.com/images/I/71cLzD9RrHL._AC_SX679_.jpg" alt="Study Planner">
+      <img src="https://m.media-amazon.com/images/I/71cLzD9RrHL._AC_SX679_.jpg" alt="Kokonote Study Planner">
       <div class="meta">
         <div class="name">Kokonote Academic Study Planner</div>
         <div class="sub">Plan your week & track progress</div>
       </div>
-      <div class="cta"><a class="btn" href="https://www.amazon.co.uk/dp/B0F7M1TVC3/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a></div>
+      <div class="cta">
+        <a class="btn" href="https://www.amazon.co.uk/dp/B0F66X8M95/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a>
+      </div>
     </div>
   </div>
 
@@ -144,12 +152,14 @@
       <div class="author">— StudySpark</div>
     </div>
     <div class="product">
-      <img src="https://m.media-amazon.com/images/I/61kv1ZfxDWL._AC_SX679_.jpg" alt="Pomodoro Timer">
+      <img src="https://m.media-amazon.com/images/I/61kv1ZfxDWL._AC_SX679_.jpg" alt="Pomodoro Timer Cube">
       <div class="meta">
         <div class="name">Digital Pomodoro Timer Cube</div>
         <div class="sub">Stay focused in timed sessions</div>
       </div>
-      <div class="cta"><a class="btn" href="https://www.amazon.co.uk/dp/B0CZNTVHY4/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a></div>
+      <div class="cta">
+        <a class="btn" href="https://www.amazon.co.uk/dp/B0CZNTVHY4/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a>
+      </div>
     </div>
   </div>
 
@@ -163,9 +173,11 @@
       <img src="https://m.media-amazon.com/images/I/81F90H7hn2L._AC_UF1000,1000_QL80_.jpg" alt="Atomic Habits Book">
       <div class="meta">
         <div class="name">"Atomic Habits" by James Clear</div>
-        <div class="sub">Transform small actions into success</div>
+        <div class="sub">Small changes, big results</div>
       </div>
-      <div class="cta"><a class="btn" href="https://www.amazon.co.uk/dp/1847941834/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a></div>
+      <div class="cta">
+        <a class="btn" href="https://www.amazon.co.uk/dp/1847941834/?tag=studyspark0f-21" target="_blank" rel="noopener noreferrer">View</a>
+      </div>
     </div>
   </div>
 
@@ -176,7 +188,7 @@
     const fallback = [
       "Study while others sleep, dream while others procrastinate.",
       "Focus on practice, not perfection.",
-      "Small consistent steps beat last-minute panic."
+      "Small consistent steps beat last‑minute panic."
     ];
 
     let dailyThree = fallback;
@@ -184,37 +196,50 @@
       if (Array.isArray(window.quotes) && window.quotes.length >= 3) {
         const today = new Date();
         const key = `${today.getUTCFullYear()}-${today.getUTCMonth()+1}-${today.getUTCDate()}`;
-        let h=0; for (let i=0;i<key.length;i++) h=(h<<5)-h+key.charCodeAt(i);
-        h=Math.abs(h);
-        dailyThree=[0,1,2].map(i=>window.quotes[(h+i*37)%window.quotes.length]);
+        let h=0; for (let i=0;i<key.length;i++) h=(h<<5)-h + key.charCodeAt(i);
+        h = Math.abs(h);
+        dailyThree = [0,1,2].map(i => window.quotes[(h + i*37) % window.quotes.length]);
       }
     } catch(e){}
 
-    const cards=[
+    const cards = [
       document.getElementById('cardA'),
       document.getElementById('cardB'),
       document.getElementById('cardC')
     ];
     cards.forEach((c,i)=>{
-      c.querySelector('.text').innerText=dailyThree[i];
-      c.style.transform=i===0?'translateX(0)':'translateX(100%)';
+      c.querySelector('.text').innerText = dailyThree[i];
+      c.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
     });
 
-    let current=0;
+    let current = 0;
+    const total = cards.length;
+
     function next(){
-      const prev=current;
-      current=(current+1)%cards.length;
-      cards[current].style.transition='none';
-      cards[current].style.transform='translateX(100%)';
+      const prev = current;
+      current = (current + 1) % total;
+      cards[current].style.transition = 'none';
+      cards[current].style.transform = 'translateX(100%)';
       requestAnimationFrame(()=>{
-        cards[prev].style.transition='transform 0.6s cubic-bezier(.25,.8,.25,1)';
-        cards[current].style.transition='transform 0.6s cubic-bezier(.25,.8,.25,1)';
-        cards[prev].style.transform='translateX(-100%)';
-        cards[current].style.transform='translateX(0)';
+        cards[prev].style.transition = 'transform 0.6s cubic-bezier(.25,.8,.25,1)';
+        cards[current].style.transition = 'transform 0.6s cubic-bezier(.25,.8,.25,1)';
+        cards[prev].style.transform = 'translateX(-100%)';
+        cards[current].style.transform = 'translateX(0)';
       });
     }
-    document.body.addEventListener('click',next);
-    window.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight')next();});
+
+    document.body.addEventListener('click', next);
+    window.addEventListener('keydown', e => { if(e.key===' '||e.key==='ArrowRight') next(); });
+
+    ['gesturestart','gesturechange','gestureend','wheel','touchmove'].forEach(evt=>{
+      document.addEventListener(evt, e =>{
+        if(e.scale!==undefined || e.touches?.length>1 || e.ctrlKey) e.preventDefault();
+      }, {passive:false});
+    });
+
+    window.addEventListener('resize', () => {
+      cards.forEach((c,i) => c.style.transform = i === current ? 'translateX(0)' : 'translateX(100%)');
+    });
   })();
   </script>
 </body>
