@@ -3,60 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudySpark</title>
+<title>StudySpark Daily Quotes</title>
 <style>
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%);
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
+
+#slider {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.card {
+  flex: 0 0 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 40px;
-  margin: 0;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3em;
-  background: linear-gradient(to right, #ff6a00, #ee0979);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 40px;
+  box-sizing: border-box;
+  color: #333;
   text-align: center;
 }
 
-.quote-card {
-  background: #fff;
-  padding: 25px 20px;
-  margin: 20px;
-  border-radius: 20px;
-  max-width: 450px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-}
-
-.quote-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-}
-
-.quote {
-  font-size: 1.3em;
-  margin-bottom: 15px;
+.quote-text {
+  font-size: 2em;
   line-height: 1.4;
-  color: #424242;
+  max-width: 80%;
+  margin-bottom: 30px;
 }
 
 .affiliate-link {
   display: inline-block;
-  margin-top: 8px;
-  padding: 8px 15px;
+  padding: 12px 20px;
   background: #0288d1;
   color: #fff;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: bold;
   transition: background 0.3s;
 }
@@ -68,21 +58,19 @@ h1 {
 </head>
 <body>
 
-<h1>Daily Study Sparks</h1>
-
-<div class="quote-card" id="card1">
-  <div id="quote1" class="quote"></div>
-  <a href="https://amzn.to/3LO7xCv" target="_blank" class="affiliate-link">Planner</a>
-</div>
-
-<div class="quote-card" id="card2">
-  <div id="quote2" class="quote"></div>
-  <a href="https://amzn.to/481Ey6Q" target="_blank" class="affiliate-link">Timer</a>
-</div>
-
-<div class="quote-card" id="card3">
-  <div id="quote3" class="quote"></div>
-  <a href="https://amzn.to/43gglal" target="_blank" class="affiliate-link">Motivational Book</a>
+<div id="slider">
+  <div class="card" id="card1">
+    <div id="quote1" class="quote-text"></div>
+    <a href="https://amzn.to/3LO7xCv" target="_blank" class="affiliate-link">Planner</a>
+  </div>
+  <div class="card" id="card2">
+    <div id="quote2" class="quote-text"></div>
+    <a href="https://amzn.to/481Ey6Q" target="_blank" class="affiliate-link">Timer</a>
+  </div>
+  <div class="card" id="card3">
+    <div id="quote3" class="quote-text"></div>
+    <a href="https://amzn.to/43gglal" target="_blank" class="affiliate-link">Motivational Book</a>
+  </div>
 </div>
 
 <script>
@@ -329,50 +317,35 @@ const quotes = [
 "Choose one technique that consistently worked and stick with it."
 ];
 
-// Function to pick 3 quotes for today
+// Get 3 daily quotes
 function getTodaysQuotes() {
   const today = new Date();
-  const startOfYear = new Date(today.getFullYear(), 0, 0);
+  const startOfYear = new Date(today.getFullYear(),0,0);
   const diff = today - startOfYear;
-  const oneDay = 1000 * 60 * 60 * 24;
+  const oneDay = 1000*60*60*24;
   const dayOfYear = Math.floor(diff / oneDay);
 
-  const quote1 = quotes[(dayOfYear * 3) % quotes.length];
-  const quote2 = quotes[(dayOfYear * 3 + 1) % quotes.length];
-  const quote3 = quotes[(dayOfYear * 3 + 2) % quotes.length];
-
+  const quote1 = quotes[(dayOfYear*3) % quotes.length];
+  const quote2 = quotes[(dayOfYear*3 +1) % quotes.length];
+  const quote3 = quotes[(dayOfYear*3 +2) % quotes.length];
   return [quote1, quote2, quote3];
 }
 
-// Set initial daily quotes
+// Initialize quotes
 document.addEventListener("DOMContentLoaded", () => {
-  const [q1, q2, q3] = getTodaysQuotes();
-  const card1 = document.getElementById("quote1");
-  const card2 = document.getElementById("quote2");
-  const card3 = document.getElementById("quote3");
-  card1.textContent = q1;
-  card2.textContent = q2;
-  card3.textContent = q3;
+  const [q1,q2,q3] = getTodaysQuotes();
+  document.getElementById("quote1").textContent = q1;
+  document.getElementById("quote2").textContent = q2;
+  document.getElementById("quote3").textContent = q3;
 
-  // Add tap/click to change to a random quote
-  document.getElementById("card1").addEventListener("click", () => {
-    card1.textContent = getRandomQuote(card1.textContent);
-  });
-  document.getElementById("card2").addEventListener("click", () => {
-    card2.textContent = getRandomQuote(card2.textContent);
-  });
-  document.getElementById("card3").addEventListener("click", () => {
-    card3.textContent = getRandomQuote(card3.textContent);
+  let currentIndex = 0;
+  const slider = document.getElementById("slider");
+
+  slider.addEventListener("click", () => {
+    currentIndex = (currentIndex +1) %3;
+    slider.style.transform = `translateX(-${currentIndex*100}%)`;
   });
 });
-
-function getRandomQuote(currentQuote) {
-  let newQuote;
-  do {
-    newQuote = quotes[Math.floor(Math.random() * quotes.length)];
-  } while (newQuote === currentQuote);
-  return newQuote;
-}
 </script>
 
 </body>
