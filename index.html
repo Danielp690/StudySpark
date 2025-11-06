@@ -33,6 +33,7 @@
       text-align: center;
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
       transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
       opacity: 0;
       animation: fadeIn 1s forwards;
     }
@@ -68,33 +69,271 @@
     @keyframes fadeIn {
       to { opacity: 1; }
     }
-
   </style>
 </head>
 <body>
 
   <h1>Daily Study Sparks</h1>
 
-  <div class="quote-card">
+  <div class="quote-card" id="card1">
     <div id="quote1" class="quote"></div>
     <a href="https://www.amazon.co.uk/dp/YOUR_PLANNER_ASIN/?tag=studyspark0f-21" target="_blank" class="affiliate-link">Planner</a>
   </div>
 
-  <div class="quote-card">
+  <div class="quote-card" id="card2">
     <div id="quote2" class="quote"></div>
     <a href="https://www.amazon.co.uk/dp/YOUR_TIMER_ASIN/?tag=studyspark0f-21" target="_blank" class="affiliate-link">Timer</a>
   </div>
 
-  <div class="quote-card">
+  <div class="quote-card" id="card3">
     <div id="quote3" class="quote"></div>
     <a href="https://www.amazon.co.uk/dp/YOUR_BOOK_ASIN/?tag=studyspark0f-21" target="_blank" class="affiliate-link">Motivational Book</a>
   </div>
 
   <script>
     const quotes = [
-      /* All 270 quotes go here, same as the previous list you provided */
+      "Okay just ten focused minutes and I’ll be proud of myself.",
+      "I’ll do one past paper now and that’s a win.",
+      "Small wins today make exams less scary later.",
+      "Finish this paragraph, then treat yourself with music.",
+      "One page at a time — I’ve got this.",
+      "I’m learning, not performing perfectly right now.",
+      "Turn my notes into answers, not just highlights.",
+      "If I can explain this to a friend, I actually know it.",
+      "Swap 30 minutes of scrolling for 30 minutes of actually learning.",
+      "Breathing, 5 deep breaths, then back to work.",
+      "Start with the hardest bit — it’ll feel easier after.",
+      "Do one example question and I’ll be surprised how much sticks.",
+      "I don’t need more energy, I need a plan.",
+      "Make this study session short but unbroken.",
+      "Tomorrow’s stress is today’s avoidable work.",
+      "Read one section, then close the book and try to explain it.",
+      "I’ll set a timer and actually do the work.",
+      "Studying now so I can relax properly later.",
+      "Notes I write will help me pass this exam.",
+      "Practice beats panic every single time.",
+      "An imperfect study session is better than a perfect excuse.",
+      "Swap perfection for progress today.",
+      "Five minutes of focus — start now.",
+      "I’ll teach this to someone later to lock it in.",
+      "Finish this paragraph and then a proper break.",
+      "I’ll make a one-page cheat sheet of the key ideas.",
+      "One solved problem is worth more than ten unread pages.",
+      "Study the examples and ask why they work.",
+      "Don’t cram — space it out and sleep on it.",
+      "Use the exam rubric to guide what you study.",
+      "My brain remembers effort paired with rest.",
+      "Stop re-reading; test yourself instead.",
+      "Turn notes into questions and answer them.",
+      "Do one timed question to practice pressure.",
+      "Consistency beats marathon cramming.",
+      "Chunk the topic and beat it one bite at a time.",
+      "Swap distractions for a 25-minute sprint.",
+      "Clear desk, clear mind — start now.",
+      "Ask one question in class today.",
+      "I’ll prepare one good summary tonight.",
+      "Make a small plan, then get to work.",
+      "I’ll work until the timer rings, no excuses.",
+      "Every minute of focus compounds over weeks.",
+      "Set a tiny goal and smash it.",
+      "Repeat the tough stuff until it feels normal.",
+      "I’ll rewrite this page but in my own words.",
+      "Focus on what matters for the exam.",
+      "Do the hardest topic first — energy is highest now.",
+      "Practice the parts that actually appear in exams.",
+      "Take notes like you’ll teach them later.",
+      "A short walk before studying clears my head.",
+      "Chunk the project into tiny, concrete steps.",
+      "I’ll trade one hour of TV for one hour of study.",
+      "Set up my study space and defend it for 30 mins.",
+      "Start with one exercise — momentum follows.",
+      "Ask for feedback on one question tonight.",
+      "Make this session count, not long.",
+      "Prioritize the topics that confuse you most.",
+      "Plan small wins and celebrate them.",
+      "I’ll write one paragraph and stop, then repeat.",
+      "Stop scrolling — study streaks matter more.",
+      "Make sticky notes with one key idea each.",
+      "Sleep helps memory — I’ll not sacrifice it.",
+      "Short study, good sleep, better recall.",
+      "Swap passive reading for active problem solving.",
+      "Practice like it’s the real exam.",
+      "Study with purpose, not autopilot.",
+      "Record yourself explaining this and listen back.",
+      "Review the notes you made last week today.",
+      "Turn passive highlights into active flashcards.",
+      "Ask ‘why’ until the idea isn’t confusing.",
+      "Practice now, thank yourself later.",
+      "One more attempt and I’ll really understand it.",
+      "Focus on understanding the logic, not the words.",
+      "Write a one-sentence summary after each topic.",
+      "Finish one section well before moving on.",
+      "Small consistent effort beats occasional sprints.",
+      "Make a test of yourself every study session.",
+      "Reward a completed session with a proper break.",
+      "Today’s effort builds tomorrow’s confidence.",
+      "Break the work into bite-sized, non-scary pieces.",
+      "I’ll practice the part that gives me nightmares.",
+      "Don’t postpone — once I start it’s fine.",
+      "Swap ‘I’ll later’ for ‘I’ll do five minutes now.’",
+      "Plan the session — set intention, then work.",
+      "Use past papers to know how they ask questions.",
+      "Write an answer, then leave it for one day.",
+      "Check one example and try to vary it.",
+      "Make a concept map for this chapter.",
+      "Stay curious: ask how this applies in real life.",
+      "Keep a single goal for this session.",
+      "Test recall before reading notes again.",
+      "Use diagrams to see relationships clearly.",
+      "Explain this aloud — if it sounds simple it’s learned.",
+      "Practice the method until it’s automatic.",
+      "Make flashcards for the tiny details you forget.",
+      "Design a question you think could appear in the exam.",
+      "Short intense study today beats slow do-nothing.",
+      "Repetition builds skill — do it often.",
+      "Start a thread of small wins today.",
+      "Make learning social: explain one thing to a friend.",
+      "Swap phone face down for focus up.",
+      "Finish that problem and move to the next challenge.",
+      "Study like you’re coaching your future self.",
+      "Chunk notes by question type, not by page.",
+      "Take one page and make it unforgettable.",
+      "Do the practice set without notes first.",
+      "Keep the session focused, not long.",
+      "Turn frustration into a clear next step.",
+      "Practice retrieving info without looking.",
+      "Ask for one tip from a teacher today.",
+      "Schedule a quick review in two days.",
+      "Do one messy draft; editing comes later.",
+      "Use examples to anchor abstract ideas.",
+      "Correct small mistakes to avoid big ones later.",
+      "Trust the process; small steps add up fast.",
+      "Turn confusion into specific questions to resolve.",
+      "Swap worry for a tiny action right now.",
+      "Set a non-negotiable 25-minute focus block.",
+      "Make a plan, stick to it, adjust tomorrow.",
+      "Focus beats motivation: create the habit.",
+      "Create a cheat-sheet that forces clarity.",
+      "Make your notes a roadmap, not a dump.",
+      "Ask ‘how will I be tested on this?’",
+      "Practice until the method becomes muscle memory.",
+      "Finish one key problem under time pressure.",
+      "Break the problem down and solve step by step.",
+      "Use a timer and protect the block from interruptions.",
+      "Keep a small stack of practice problems nearby.",
+      "Study in the time of day when you focus best.",
+      "Make a visible progress list — cross things off.",
+      "Focus on the next small win, not the whole mountain.",
+      "Practice deliberately, not aimlessly.",
+      "Rewrite notes into a clear summary each week.",
+      "Make the hard part slightly easier by repeating it.",
+      "Turn exam stress into a checklist of revisions.",
+      "Use spaced repetition, not last-minute panic.",
+      "Create a short plan the night before study day.",
+      "Test yourself, then fix what you missed immediately.",
+      "Do shorter sessions more often, not a single long one.",
+      "Use active recall: it’s faster than re-reading.",
+      "Start with one tough question, then move to easier ones.",
+      "Set a timer and protect that study window.",
+      "Note the one thing that confused you then fix it.",
+      "Keep a short list of topics to re-check tomorrow.",
+      "Force practice under conditions similar to the test.",
+      "Make a small goal and make it unbreakable.",
+      "Swap anxiety for the next practical step.",
+      "Finish a page and you’ve made progress.",
+      "Build a study streak and don’t break it.",
+      "Use simpler language when explaining complex ideas.",
+      "Practice problems until you can do them blindfolded.",
+      "Prioritize the 20% that gives 80% of the results.",
+      "Create one exam-style question and answer it fully.",
+      "Review the toughest topic first while energy is high.",
+      "Sleep well the night before for real recall gains.",
+      "Break study sessions into clear tasks and finish each.",
+      "Turn notes into a quiz and test yourself.",
+      "Make revision daily and the exam will feel easy.",
+      "Stop when you’re still learning — avoid burnout later.",
+      "Use examples to check your understanding deeply.",
+      "Switch formats — read, write, speak — to lock it in.",
+      "Pick one small target and beat it today.",
+      "Use a short break to reset the brain, not distract it.",
+      "Teach one thing tonight — if you can, it’s learned.",
+      "Get one practical example for every abstract idea.",
+      "Turn mistakes into targeted practice items.",
+      "Practice problem types until you can do them blind.",
+      "Reduce friction: have your materials ready before you start.",
+      "Set a realistic study time and defend it fiercely.",
+      "Make a mini test for the one chapter you dread.",
+      "Celebrate the tiny wins — they compound fast.",
+      "Make this session shorter but sharper than last time.",
+      "Write down the one thing you’ll remember tomorrow.",
+      "Plan review times across the week, not just one night.",
+      "Break long readings into timed chunks with goals.",
+      "Swap unfocused time for a focused 20-minute sprint.",
+      "Make a list of ‘must-know’ topics and focus there.",
+      "Practice writing answers under a time limit.",
+      "Use the same language as the exam when you practice.",
+      "Write out formulas and say why each is used.",
+      "Reduce distractions by creating a small ritual before studying.",
+      "Remember: effort now means fewer surprises later.",
+      "Turn a vague goal into a precise to-do and start.",
+      "Keep a short notebook for the points you always forget.",
+      "Do one timed practice every two days — consistency wins.",
+      "Use small repetition loops to move information to long-term memory.",
+      "Finish one set of problems and then rest — learn in cycles.",
+      "Take one idea and make three practical examples for it.",
+      "Study with a friend and test each other for 10 minutes.",
+      "Reflect on what learning strategy worked best this week.",
+      "Turn a confusing section into a visual diagram you can explain.",
+      "Turn passive notes into 5 active questions to answer.",
+      "Use the morning for heavy lifting and evening for review.",
+      "Keep exercise and sleep — they directly improve study performance.",
+      "Practice recall before looking at your notes again.",
+      "Make study a habit: same time, same place, small start.",
+      "Note the single step that will make this easier tomorrow.",
+      "Finish a short draft and leave editing for later.",
+      "Rephrase the idea until it fits into one simple sentence.",
+      "Do one more practice even if you feel tired — consistency counts.",
+      "Turn your notes into a printable one-page summary.",
+      "Ask for help early — confusion compounds fast.",
+      "Keep your setup simple: a pen, your notes, and focus.",
+      "Plan an ‘easy’ review day into your schedule for recovery.",
+      "Write the answer before checking the correct one, then fix gaps.",
+      "Test in short bursts and track which topics fall through.",
+      "Make the first five minutes count — it sets the tone.",
+      "Prioritize comprehension over speed on the first pass.",
+      "Make a habit of summarizing at the end of each study session.",
+      "Identify one recurring mistake and practice avoiding it.",
+      "Study actively: make questions, answer them, then explain aloud.",
+      "Use the bookshelf method: take one book, draw one page of notes.",
+      "Break intimidation into steps — then do the first step now.",
+      "Say the answer aloud — hearing it helps fix memory.",
+      "Build a revision schedule and stick to the times you set.",
+      "Swap worried energy for a 10-minute focused task right now.",
+      "Practice old exam papers — they show how questions are really asked.",
+      "Write down three facts to remember before sleep tonight.",
+      "Use the simplest method to solve a problem first, then refine it.",
+      "Keep a list of ‘one-minute’ tasks to chip away at big projects.",
+      "Turn reading into active questions: Who, what, why, how?",
+      "Finish one problem completely instead of half-fixing many.",
+      "Make your notes shorter — clarity beats quantity.",
+      "Test under simulated exam conditions once a week.",
+      "Carry one topic in your head and explain it to yourself on the bus.",
+      "Break a project into a checklist and complete one item today.",
+      "Write the simplest possible summary of each lecture.",
+      "Practice retrieval — close the book and try to remember key points.",
+      "Stop procrastinating by setting a five-minute commitment to start.",
+      "Use simple flashcards and shuffle them when reviewing.",
+      "Choose one concrete metric to measure your progress each week.",
+      "Write one paragraph explaining why this topic matters to you.",
+      "Make a small end-of-day note about what was learned today.",
+      "Fix one small problem in your notes each study session.",
+      "Make the hard hours do the heavy lifting — protect them.",
+      "Turn vague anxiety into exact study tasks you can solve.",
+      "Study in short bursts with consistent review across days.",
+      "Choose one technique that consistently worked and stick with it."
     ];
 
+    // Function to pick 3 quotes for today
     function getTodaysQuotes() {
       const today = new Date();
       const startOfYear = new Date(today.getFullYear(), 0, 0);
@@ -109,13 +348,21 @@
       return [quote1, quote2, quote3];
     }
 
+    // Set initial daily quotes
     document.addEventListener("DOMContentLoaded", () => {
       const [q1, q2, q3] = getTodaysQuotes();
       document.getElementById("quote1").textContent = q1;
       document.getElementById("quote2").textContent = q2;
       document.getElementById("quote3").textContent = q3;
     });
-  </script>
 
-</body>
-</html>
+    // Tapping feature: click card to show a random quote
+    function getRandomQuote(currentQuote) {
+      let newQuote;
+      do {
+        newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      } while (newQuote === currentQuote);
+      return newQuote;
+    }
+
+    document.getElementBy
